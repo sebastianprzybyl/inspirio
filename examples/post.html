@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Inspirio Post</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap');
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      width: 1080px;
+      height: 1080px;
+      overflow: hidden;
+      background: #0E0E10;
+      font-family: 'DM Sans', sans-serif;
+      color: #ffffff;
+    }
+
+    .wrapper {
+      width: 1080px;
+      height: 1080px;
+      display: flex;
+      flex-direction: column;
+      background: #0E0E10;
+      position: relative;
+    }
+
+    /* ── TOPBAR ────────────────────────────────────── */
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 48px 48px 0 48px;
+      flex-shrink: 0;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo svg {
+      width: 36px;
+      height: 36px;
+      fill: #7F77DD;
+      flex-shrink: 0;
+    }
+
+    .logo-text {
+      font-size: 28px;
+      font-weight: 700;
+      color: #ffffff;
+      letter-spacing: -0.5px;
+    }
+
+    .badge {
+      background: #EEEDFE;
+      color: #3C3489;
+      font-size: 22px;
+      font-weight: 600;
+      padding: 10px 22px;
+      border-radius: 50px;
+      letter-spacing: 0.5px;
+    }
+
+    /* ── CONTENT ───────────────────────────────────── */
+    .content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 48px 80px;
+      gap: 32px;
+    }
+
+    .headline {
+      font-size: 88px;
+      font-weight: 700;
+      line-height: 1.05;
+      letter-spacing: -2px;
+      color: #ffffff;
+    }
+
+    .subheadline {
+      font-size: 44px;
+      font-weight: 500;
+      line-height: 1.3;
+      color: #888888;
+      margin-top: -8px;
+    }
+
+    .body-points {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      margin-top: 16px;
+    }
+
+    .body-points li {
+      font-size: 36px;
+      font-weight: 400;
+      line-height: 1.3;
+      color: #ffffff;
+      display: flex;
+      align-items: flex-start;
+      gap: 20px;
+    }
+
+    .body-points li::before {
+      content: '•';
+      color: #7F77DD;
+      font-size: 44px;
+      line-height: 1;
+      flex-shrink: 0;
+      margin-top: -2px;
+    }
+
+    /* ── DIVIDER ───────────────────────────────────── */
+    .divider {
+      height: 1px;
+      background: #2a2a2e;
+      margin: 0 48px;
+      flex-shrink: 0;
+    }
+
+    /* ── BOTTOMBAR ─────────────────────────────────── */
+    .bottombar {
+      background: #7F77DD;
+      padding: 28px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+
+    .bottombar .logo {
+      /* ponowne użycie logo — kolor gwiazdki biały na fioletowym tle */
+    }
+
+    .bottombar .logo svg {
+      fill: #ffffff;
+    }
+
+    .bottombar .logo-text {
+      color: #ffffff;
+    }
+
+    .bottombar-cta {
+      font-size: 26px;
+      font-weight: 500;
+      color: #ffffff;
+      opacity: 0.9;
+      letter-spacing: 0.2px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+
+    <!-- TOPBAR -->
+    <header class="topbar">
+      <div class="logo">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/>
+        </svg>
+        <span class="logo-text">Inspirio</span>
+      </div>
+      <span class="badge">{{postType}}</span>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="content">
+      <h1 class="headline">{{headline}}</h1>
+      <p class="subheadline">{{subheadline}}</p>
+      <ul class="body-points">
+        {{bodyPoints}}
+      </ul>
+    </main>
+
+    <!-- DIVIDER -->
+    <div class="divider"></div>
+
+    <!-- BOTTOMBAR -->
+    <footer class="bottombar">
+      <div class="logo">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/>
+        </svg>
+        <span class="logo-text">Inspirio App</span>
+      </div>
+      <span class="bottombar-cta">✦ link w bio 👆</span>
+      <span style="font-size:22px;color:rgba(255,255,255,0.7);">{{date}}</span>
+    </footer>
+
+  </div>
+</body>
+</html>
+

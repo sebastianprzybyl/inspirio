@@ -1,0 +1,25 @@
+{
+  "name": "instagram-automation",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Automatyzacja tworzenia i publikacji tresci na Instagramie (Gemini + Puppeteer + Supabase + Meta Graph)",
+  "scripts": {
+    "generate": "node generator/index.js",
+    "publish": "node publisher/instagram.js",
+    "render:smoke": "node graphics/render.js --smoke",
+    "check:instagram": "node scripts/check-instagram.js",
+    "test:publish": "node scripts/test-publish.js",
+    "test:publish:dry": "node scripts/test-publish.js --dry-run",
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@google/genai": "^0.14.1",
+    "@supabase/supabase-js": "^2.53.0",
+    "dotenv": "^16.6.1",
+    "puppeteer": "^24.7.2"
+  }
+}

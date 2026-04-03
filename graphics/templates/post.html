@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Inspirio Post Template</title>
+    <link rel="stylesheet" href="../assets/colors.css" />
+    <style>
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      html, body {
+        width: 1080px;
+        height: 1080px;
+        overflow: hidden;
+        font-family: Arial, Helvetica, sans-serif;
+        background: var(--bg);
+        color: var(--text-main);
+      }
+      .card {
+        width: 1080px;
+        height: 1080px;
+        display: flex;
+        flex-direction: column;
+        padding: 56px;
+        gap: 36px;
+      }
+      .badge {
+        align-self: flex-start;
+        background: var(--accent-soft);
+        color: var(--accent-strong);
+        border-radius: 999px;
+        font-size: 26px;
+        font-weight: 700;
+        padding: 10px 24px;
+      }
+      h1 {
+        font-size: 84px;
+        line-height: 1.05;
+        letter-spacing: -1px;
+      }
+      h2 {
+        font-size: 40px;
+        color: var(--text-muted);
+        font-weight: 500;
+      }
+      ul {
+        margin-top: 8px;
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        font-size: 34px;
+        line-height: 1.25;
+      }
+      li::before {
+        content: "• ";
+        color: var(--accent);
+      }
+      .footer {
+        margin-top: auto;
+        border-top: 1px solid var(--divider);
+        padding-top: 20px;
+        color: var(--text-muted);
+        display: flex;
+        justify-content: space-between;
+        font-size: 24px;
+      }
+    </style>
+  </head>
+  <body>
+    <article class="card">
+      <span id="postType" class="badge">PORADA</span>
+      <h1 id="headline">Tytul posta</h1>
+      <h2 id="subheadline">Podtytul posta</h2>
+      <ul id="bodyPoints"></ul>
+      <footer class="footer">
+        <span>Inspirio</span>
+        <span id="date">2026-04-02</span>
+      </footer>
+    </article>
+  </body>
+</html>
+

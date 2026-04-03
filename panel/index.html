@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Inspirio Panel</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        background: #0f1115;
+        color: #fff;
+      }
+      header {
+        padding: 20px;
+        border-bottom: 1px solid #2b2f39;
+      }
+      main {
+        padding: 20px;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+        gap: 16px;
+      }
+      .card {
+        background: #1a1f2a;
+        border: 1px solid #2b2f39;
+        border-radius: 12px;
+        overflow: hidden;
+      }
+      img {
+        width: 100%;
+        aspect-ratio: 1;
+        object-fit: cover;
+        background: #0b0d12;
+      }
+      .content {
+        padding: 12px;
+        display: grid;
+        gap: 10px;
+      }
+      textarea {
+        width: 100%;
+        min-height: 120px;
+        border-radius: 8px;
+        border: 1px solid #394154;
+        background: #111520;
+        color: #fff;
+        padding: 10px;
+      }
+      .actions { display: flex; gap: 8px; }
+      button {
+        border: 0;
+        border-radius: 8px;
+        padding: 10px 12px;
+        color: #fff;
+        cursor: pointer;
+      }
+      .approve { background: #2f9e44; }
+      .reject { background: #c92a2a; }
+      .refresh { background: #364fc7; }
+      .meta { color: #9aa4bd; font-size: 13px; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Panel zatwierdzania</h1>
+      <button class="refresh" id="refreshBtn">Odswiez</button>
+      <span id="status" class="meta"></span>
+    </header>
+    <main id="list"></main>
+
+    <script src="./config.js"></script>
+    <script type="module">
+      import { loadPendingPosts, updatePost } from "./api.js";
+
+      const listEl = document.getElementById("list");
+      const statusEl = document.getElementById("status");
+
+      function setStatus(text) {
+        statusEl.textContent = text;
+      }
+
+      async function changeStatus(post, status) {
+        const textarea = document.querySelector(`[data-caption-id='${post.id}']`);
+        await updatePost(post.id, status, textarea?.value || post.caption || "");
+        await load();
+      }
+
+      function renderPost(post) {
+        const article = document.createElement("article");
+        article.className = "card";
+
+        const tags = Array.isArray(post.tags) ? post.tags.join(" ") : "";
+        article.innerHTML = `
+          <img src="${post.image_url || ""}" alt="Podglad posta" />
+          <div class="content">
+            <div class="meta">${new Date(post.created_at).toLocaleString("pl-PL")} | ${post.type}</div>
+            <div>${tags}</div>
+            <textarea data-caption-id="${post.id}">${post.caption || ""}</textarea>
+            <div class="actions">
+              <button class="approve">Zatwierdz</button>
+              <button class="reject">Odrzuc</button>
+            </div>
+          </div>
+        `;
+
+        article.querySelector(".approve").addEventListener("click", () => changeStatus(post, "approved"));
+        article.querySelector(".reject").addEventListener("click", () => changeStatus(post, "rejected"));
+        return article;
+      }
+
+      async function load() {
+        setStatus("Ladowanie...");
+        try {
+          const posts = await loadPendingPosts();
+          listEl.innerHTML = "";
+          for (const post of posts) {
+            listEl.appendChild(renderPost(post));
+          }
+          setStatus(`Liczba postow: ${posts.length}`);
+        } catch (error) {
+          setStatus(`Blad: ${error.message}`);
+        }
+      }
+
+      document.getElementById("refreshBtn").addEventListener("click", load);
+      load();
+    </script>
+  </body>
+</html>
+
+

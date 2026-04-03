@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Inspirio Story</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap');
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      width: 1080px;
+      height: 1920px;
+      overflow: hidden;
+      font-family: 'DM Sans', sans-serif;
+      color: #ffffff;
+    }
+
+    /* ══════════════════════════════════════════════════
+       SLAJD 1 — HOOK
+       ══════════════════════════════════════════════════ */
+    .slide-1 {
+      width: 1080px;
+      height: 1920px;
+      background: #0E0E10;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 80px 80px 120px;
+      position: relative;
+    }
+
+    .slide-1 .tag {
+      background: #EEEDFE;
+      color: #3C3489;
+      font-size: 30px;
+      font-weight: 600;
+      padding: 14px 36px;
+      border-radius: 50px;
+      letter-spacing: 1px;
+      margin-bottom: 64px;
+    }
+
+    .slide-1 .hook-text {
+      font-size: 96px;
+      font-weight: 700;
+      line-height: 1.08;
+      letter-spacing: -3px;
+      text-align: center;
+      color: #ffffff;
+    }
+
+    .slide-1 .bottom-logo {
+      position: absolute;
+      bottom: 80px;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 14px;
+    }
+
+    /* ══════════════════════════════════════════════════
+       SLAJD 2 — WARTOŚĆ
+       ══════════════════════════════════════════════════ */
+    .slide-2 {
+      width: 1080px;
+      height: 1920px;
+      background: #0E0E10;
+      display: flex;
+      flex-direction: column;
+      padding: 120px 80px 120px;
+      position: relative;
+    }
+
+    .slide-2 .value-title {
+      font-size: 64px;
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -1.5px;
+      color: #ffffff;
+      margin-bottom: 72px;
+    }
+
+    .slide-2 .points-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 48px;
+      flex: 1;
+    }
+
+    .slide-2 .points-list li {
+      display: flex;
+      align-items: center;
+      gap: 36px;
+      font-size: 48px;
+      font-weight: 500;
+      line-height: 1.2;
+      color: #ffffff;
+    }
+
+    .slide-2 .point-number {
+      width: 80px;
+      height: 80px;
+      min-width: 80px;
+      border-radius: 50%;
+      background: #7F77DD;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 36px;
+      font-weight: 700;
+      color: #ffffff;
+      flex-shrink: 0;
+    }
+
+    .slide-2 .bottom-logo {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 14px;
+      padding-top: 60px;
+    }
+
+    /* ══════════════════════════════════════════════════
+       SLAJD 3 — CTA
+       ══════════════════════════════════════════════════ */
+    .slide-3 {
+      width: 1080px;
+      height: 1920px;
+      background: #7F77DD;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 80px;
+      position: relative;
+      gap: 48px;
+    }
+
+    .slide-3 .big-logo svg {
+      width: 200px;
+      height: 200px;
+      fill: #ffffff;
+    }
+
+    .slide-3 .cta-main {
+      font-size: 56px;
+      font-weight: 700;
+      line-height: 1.2;
+      text-align: center;
+      color: #ffffff;
+      letter-spacing: -1px;
+    }
+
+    .slide-3 .cta-sub {
+      font-size: 40px;
+      font-weight: 500;
+      text-align: center;
+      color: #EEEDFE;
+      letter-spacing: 0.2px;
+    }
+
+    .slide-3 .handle {
+      position: absolute;
+      bottom: 80px;
+      font-size: 30px;
+      font-weight: 400;
+      color: rgba(255, 255, 255, 0.5);
+      letter-spacing: 0.5px;
+    }
+
+    /* ── Wspólne logo ──────────────────────────────── */
+    .logo-inline {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .logo-inline svg {
+      width: 44px;
+      height: 44px;
+      fill: #7F77DD;
+    }
+
+    .logo-inline.white svg {
+      fill: #ffffff;
+    }
+
+    .logo-inline .logo-text {
+      font-size: 34px;
+      font-weight: 700;
+      color: #ffffff;
+      letter-spacing: -0.5px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ════════════════════════════════════════
+       SLAJD 1 — HOOK  (slideNumber = 1)
+       ════════════════════════════════════════ -->
+  <div class="slide-1" id="slide-1" style="display:{{slide1Display}}">
+    <span class="tag">{{postType}}</span>
+    <p class="hook-text">{{storyHook}}</p>
+    <div class="bottom-logo">
+      <div class="logo-inline">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/>
+        </svg>
+        <span class="logo-text">Inspirio</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════
+       SLAJD 2 — WARTOŚĆ  (slideNumber = 2)
+       ════════════════════════════════════════ -->
+  <div class="slide-2" id="slide-2" style="display:{{slide2Display}}">
+    <h2 class="value-title">{{storyValueTitle}}</h2>
+    <ul class="points-list">
+      {{storyValuePoints}}
+    </ul>
+    <div class="bottom-logo">
+      <div class="logo-inline">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/>
+        </svg>
+        <span class="logo-text">Inspirio</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════
+       SLAJD 3 — CTA  (slideNumber = 3)
+       ════════════════════════════════════════ -->
+  <div class="slide-3" id="slide-3" style="display:{{slide3Display}}">
+    <div class="big-logo">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/>
+      </svg>
+    </div>
+    <p class="cta-main">{{storyCta}}</p>
+    <p class="cta-sub">Pobierz Inspirio — link w bio</p>
+    <span class="handle">@i_am_ai_inspiron</span>
+  </div>
+
+</body>
+</html>
+

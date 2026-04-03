@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Inspirio Carousel Slide</title>
+    <link rel="stylesheet" href="../assets/colors.css" />
+    <style>
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      html, body {
+        width: 1080px;
+        height: 1080px;
+        overflow: hidden;
+        font-family: Arial, Helvetica, sans-serif;
+        background: var(--surface);
+        color: var(--text-main);
+      }
+      .slide {
+        width: 1080px;
+        height: 1080px;
+        padding: 72px;
+        display: flex;
+        flex-direction: column;
+        gap: 28px;
+      }
+      .index {
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
+        background: var(--accent);
+        display: grid;
+        place-items: center;
+        font-weight: 700;
+      }
+      h1 {
+        font-size: 72px;
+        line-height: 1.1;
+      }
+      p {
+        font-size: 38px;
+        line-height: 1.35;
+        color: var(--text-muted);
+      }
+      .brand {
+        margin-top: auto;
+        color: var(--accent-soft);
+        font-size: 28px;
+      }
+    </style>
+  </head>
+  <body>
+    <article class="slide">
+      <div id="slideIndex" class="index">1</div>
+      <h1 id="slideTitle">Tytul slajdu</h1>
+      <p id="slideBody">Tresc slajdu</p>
+      <div class="brand">Inspirio</div>
+    </article>
+  </body>
+</html>
+
