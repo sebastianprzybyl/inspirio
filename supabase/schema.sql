@@ -35,20 +35,23 @@ execute function public.set_updated_at();
 alter table public.posts enable row level security;
 
 -- Panel webowy moze odczytywac pending i aktualizowac status po zalogowaniu anon key + policy.
-create policy if not exists "public_select_pending_posts"
+drop policy if exists "public_select_pending_posts" on public.posts;
+create policy "public_select_pending_posts"
 on public.posts
 for select
 to anon
 using (status = 'pending');
 
-create policy if not exists "public_update_pending_posts"
+drop policy if exists "public_update_pending_posts" on public.posts;
+create policy "public_update_pending_posts"
 on public.posts
 for update
 to anon
 using (status = 'pending')
 with check (status in ('approved', 'rejected', 'pending'));
 
-create policy if not exists "service_role_all_posts"
+drop policy if exists "service_role_all_posts" on public.posts;
+create policy "service_role_all_posts"
 on public.posts
 for all
 to service_role

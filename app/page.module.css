@@ -1,0 +1,106 @@
+.page { min-height: 100vh; background: var(--bg); }
+
+/* ── Header ─────────────────────────────────────────────── */
+.header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px 32px; border-bottom: 1px solid var(--border);
+  position: sticky; top: 0; background: var(--bg); z-index: 10;
+}
+.headerLeft { display: flex; align-items: center; gap: 12px; }
+.logo { width: 28px; height: 28px; fill: var(--accent); flex-shrink: 0; }
+.title { font-size: 20px; font-weight: 700; letter-spacing: -0.3px; }
+.subtitle { font-size: 13px; color: var(--text-muted); padding: 3px 10px; background: var(--surface-2); border-radius: 20px; }
+.headerRight { display: flex; align-items: center; gap: 12px; }
+.refreshTime { font-size: 13px; color: var(--text-muted); }
+.btnRefresh {
+  background: var(--surface-2); border: 1px solid var(--border); color: var(--text);
+  padding: 8px 16px; border-radius: var(--radius); cursor: pointer; font-size: 13px;
+  transition: background 0.15s;
+}
+.btnRefresh:hover { background: var(--surface); }
+.btnRefresh:disabled { opacity: 0.5; cursor: default; }
+
+/* ── Main ────────────────────────────────────────────────── */
+.main { padding: 32px; }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  gap: 20px;
+}
+
+/* ── States ─────────────────────────────────────────────── */
+.center {
+  text-align: center; color: var(--text-muted); padding: 80px 20px;
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+}
+.hint { font-size: 14px; }
+.errorState {
+  background: #2a1010; border: 1px solid var(--red); border-radius: var(--radius);
+  padding: 20px; margin-bottom: 24px; display: flex; align-items: center; gap: 16px;
+}
+.errorState button {
+  background: var(--red); color: white; border: 0; border-radius: 8px;
+  padding: 8px 16px; cursor: pointer; white-space: nowrap;
+}
+
+/* ── Card ────────────────────────────────────────────────── */
+.card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); overflow: hidden;
+  transition: border-color 0.15s;
+}
+.card:hover { border-color: #3a3a42; }
+
+.cardImage { position: relative; aspect-ratio: 1; background: var(--surface-2); overflow: hidden; }
+.cardImage img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.noImage {
+  width: 100%; height: 100%; display: grid; place-items: center;
+  color: var(--text-muted); font-size: 13px;
+}
+.typeBadge {
+  position: absolute; top: 12px; right: 12px;
+  background: rgba(14,14,16,0.85); border: 1px solid var(--border);
+  color: var(--accent-soft); font-size: 11px; font-weight: 600;
+  padding: 4px 10px; border-radius: 20px; letter-spacing: 0.5px; text-transform: uppercase;
+  backdrop-filter: blur(4px);
+}
+
+.cardBody { padding: 16px; display: flex; flex-direction: column; gap: 10px; }
+
+.topic { font-size: 12px; font-weight: 600; color: var(--accent); text-transform: uppercase; letter-spacing: 0.5px; }
+
+.caption {
+  width: 100%; min-height: 110px; background: var(--surface-2);
+  border: 1px solid var(--border); border-radius: 8px; color: var(--text);
+  padding: 10px; font-size: 13px; line-height: 1.5; resize: vertical;
+  font-family: inherit; transition: border-color 0.15s;
+}
+.caption:focus { outline: none; border-color: var(--accent); }
+
+.tags { font-size: 12px; color: var(--accent); line-height: 1.6; }
+.date { font-size: 11px; color: var(--text-muted); }
+
+.errorMsg {
+  background: #2a1010; border: 1px solid var(--red);
+  border-radius: 8px; padding: 8px 12px; font-size: 12px; color: #ff6b6b;
+}
+
+.actions { display: flex; gap: 8px; margin-top: 4px; }
+
+.btnApprove {
+  flex: 1; background: var(--green); color: white; border: 0;
+  border-radius: 8px; padding: 11px 12px; cursor: pointer; font-size: 13px;
+  font-weight: 600; font-family: inherit; transition: opacity 0.15s;
+}
+.btnApprove:hover { opacity: 0.85; }
+.btnApprove:disabled { opacity: 0.45; cursor: default; }
+
+.btnReject {
+  background: var(--surface-2); border: 1px solid var(--border); color: var(--text-muted);
+  border-radius: 8px; padding: 11px 14px; cursor: pointer; font-size: 13px;
+  font-family: inherit; transition: all 0.15s;
+}
+.btnReject:hover { background: #2a1010; border-color: var(--red); color: #ff6b6b; }
+.btnReject:disabled { opacity: 0.45; cursor: default; }
+

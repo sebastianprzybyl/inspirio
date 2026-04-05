@@ -157,6 +157,18 @@ async function publishCarousel(post) {
   return publishedId;
 }
 
+/**
+ * publishPost — czysty eksport używany przez Next.js API route.
+ * Przyjmuje dane posta i publikuje na IG. Nie dotyka Supabase.
+ * @param {{ type: string, image_url: string, caption: string, tags: string[], slides: Array }} post
+ * @returns {{ publishedId: string }}
+ */
+export async function publishPost(post) {
+  const publishedId =
+    post.type === "carousel" ? await publishCarousel(post) : await publishSinglePost(post);
+  return { publishedId };
+}
+
 export async function testMetaConnection() {
   const igUserId = required("INSTAGRAM_USER_ID");
   console.log("── Meta Graph API — test połączenia (GET only) ─────────────");
