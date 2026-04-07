@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Inspirio Story — Wartość</title>
+    <link rel="stylesheet" href="../assets/brand.css" />
+    <style>
+      html, body {
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+        background: var(--bg);
+        color: var(--text-main);
+        font-family: var(--font);
+      }
+
+      .slide {
+        width: 1080px;
+        height: 1920px;
+        display: flex;
+        flex-direction: column;
+        padding: 120px 80px;
+        position: relative;
+      }
+
+      /* Małe logo na górze */
+      .top-logo {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 72px;
+        flex-shrink: 0;
+      }
+
+      .top-logo img {
+        width: 32px;
+        height: 32px;
+        opacity: 0.6;
+      }
+
+      .top-logo-text {
+        font-size: 26px;
+        font-weight: 600;
+        color: var(--text-muted);
+      }
+
+      /* Tytuł sekcji wartości */
+      .value-title {
+        font-size: 64px;
+        font-weight: 700;
+        line-height: 1.1;
+        letter-spacing: -1.5px;
+        color: var(--text-main);
+        margin-bottom: 72px;
+        flex-shrink: 0;
+      }
+
+      /* Lista ponumerowanych punktów */
+      .points-list {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 52px;
+        flex: 1;
+      }
+
+      .points-list li {
+        display: flex;
+        align-items: center;
+        gap: 36px;
+        font-size: 46px;
+        font-weight: 500;
+        line-height: 1.25;
+        color: var(--text-main);
+      }
+
+      /* Fioletowe kółko z numerem */
+      .point-number {
+        width: 80px;
+        height: 80px;
+        min-width: 80px;
+        border-radius: 50%;
+        background: var(--accent);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 36px;
+        font-weight: 700;
+        color: var(--text-main);
+        flex-shrink: 0;
+      }
+
+      /* Logo na dole */
+      .bottom-logo {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 14px;
+        padding-top: 60px;
+        flex-shrink: 0;
+      }
+
+      .bottom-logo img {
+        width: 44px;
+        height: 44px;
+      }
+
+      .logo-text {
+        font-size: 34px;
+        font-weight: 700;
+        color: var(--text-main);
+        letter-spacing: -0.5px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="slide">
+
+      <div class="top-logo">
+        <img src="../assets/logo.svg" alt="Inspirio" />
+        <span class="top-logo-text">Inspirio</span>
+      </div>
+
+      <h2 id="valueTitle" class="value-title">Tytuł wartości</h2>
+
+      <!-- Punkty wstrzykiwane przez Puppeteer jako <li>:
+           każde <li> zawiera .point-number + span z tekstem -->
+      <ul id="valuePoints" class="points-list"></ul>
+
+      <div class="bottom-logo">
+        <img src="../assets/logo.svg" alt="Inspirio" />
+        <span class="logo-text">Inspirio</span>
+      </div>
+
+    </div>
+  </body>
+</html>
+

@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Inspirio Story — Sentencja</title>
+    <link rel="stylesheet" href="../assets/brand.css" />
+    <style>
+      html, body {
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+        background: var(--bg);
+        color: var(--text-main);
+        font-family: var(--font);
+      }
+
+      .slide {
+        width: 1080px;
+        height: 1920px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 120px 100px;
+        position: relative;
+        gap: 64px;
+      }
+
+      /* Cudzysłów dekoracyjny */
+      .quote-mark {
+        font-size: 200px;
+        line-height: 0.6;
+        color: var(--accent);
+        font-weight: 700;
+        align-self: flex-start;
+        margin-bottom: -32px;
+        opacity: 0.6;
+      }
+
+      /* Treść sentencji */
+      .quote-text {
+        font-size: 64px;
+        font-weight: 600;
+        line-height: 1.2;
+        letter-spacing: -1px;
+        color: var(--text-main);
+        text-align: left;
+        align-self: stretch;
+      }
+
+      /* Linia akcentu przed autorem */
+      .author-line {
+        display: flex;
+        align-items: center;
+        gap: 28px;
+        align-self: stretch;
+      }
+
+      .author-dash {
+        width: 48px;
+        height: 4px;
+        background: var(--accent);
+        border-radius: 2px;
+        flex-shrink: 0;
+      }
+
+      .author-text {
+        font-size: 36px;
+        font-weight: 500;
+        color: var(--text-muted);
+        letter-spacing: 0.2px;
+      }
+
+      /* Logo na dole */
+      .bottom-logo {
+        position: absolute;
+        bottom: 80px;
+        left: 0;
+        right: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 14px;
+      }
+
+      .bottom-logo img {
+        width: 36px;
+        height: 36px;
+        opacity: 0.5;
+      }
+
+      .logo-text {
+        font-size: 28px;
+        font-weight: 600;
+        color: var(--text-muted);
+        letter-spacing: -0.3px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="slide">
+
+      <span class="quote-mark">"</span>
+      <p id="quote" class="quote-text">Treść sentencji</p>
+
+      <div class="author-line">
+        <div class="author-dash"></div>
+        <span id="author" class="author-text"></span>
+      </div>
+
+      <div class="bottom-logo">
+        <img src="../assets/logo.svg" alt="Inspirio" />
+        <span class="logo-text">Inspirio</span>
+      </div>
+
+    </div>
+  </body>
+</html>
+

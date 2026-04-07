@@ -2,58 +2,161 @@
 <html lang="pl">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Inspirio Carousel Slide</title>
-    <link rel="stylesheet" href="../assets/colors.css" />
+    <link rel="stylesheet" href="../assets/brand.css" />
     <style>
-      * { box-sizing: border-box; margin: 0; padding: 0; }
       html, body {
         width: 1080px;
         height: 1080px;
         overflow: hidden;
-        font-family: Arial, Helvetica, sans-serif;
-        background: var(--surface);
+        background: var(--bg);
         color: var(--text-main);
+        font-family: var(--font);
       }
+
       .slide {
         width: 1080px;
         height: 1080px;
-        padding: 72px;
         display: flex;
         flex-direction: column;
-        gap: 28px;
       }
-      .index {
-        width: 64px;
-        height: 64px;
+
+      /* ── TOPBAR ──────────────────────────────────── */
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 48px 56px 0;
+        flex-shrink: 0;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .logo img {
+        width: 28px;
+        height: 28px;
+        opacity: 0.6;
+      }
+
+      .logo-text {
+        font-size: 24px;
+        font-weight: 600;
+        color: var(--text-muted);
+        letter-spacing: -0.3px;
+      }
+
+      /* Numer slajdu — fioletowe kółko */
+      .slide-number {
+        width: 60px;
+        height: 60px;
         border-radius: 50%;
         background: var(--accent);
         display: grid;
         place-items: center;
+        font-size: 26px;
         font-weight: 700;
+        color: var(--text-main);
+        flex-shrink: 0;
       }
-      h1 {
+
+      /* ── CONTENT ─────────────────────────────────── */
+      .content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 40px 56px 32px;
+        gap: 36px;
+      }
+
+      .slide-title {
         font-size: 72px;
-        line-height: 1.1;
+        font-weight: 700;
+        line-height: 1.08;
+        letter-spacing: -1.5px;
+        color: var(--text-main);
       }
-      p {
-        font-size: 38px;
-        line-height: 1.35;
+
+      /* Dekoracyjna linia pod tytułem */
+      .title-underline {
+        width: 80px;
+        height: 5px;
+        background: var(--accent);
+        border-radius: 3px;
+        flex-shrink: 0;
+      }
+
+      .slide-body {
+        font-size: 40px;
+        font-weight: 400;
+        line-height: 1.4;
         color: var(--text-muted);
       }
-      .brand {
-        margin-top: auto;
-        color: var(--accent-soft);
-        font-size: 28px;
+
+      /* ── BOTTOMBAR ───────────────────────────────── */
+      .bottombar {
+        background: var(--surface);
+        border-top: 1px solid var(--divider);
+        padding: 24px 56px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-shrink: 0;
+      }
+
+      .bottombar .logo {
+        opacity: 1;
+      }
+
+      .bottombar .logo img {
+        opacity: 1;
+      }
+
+      .bottombar .logo-text {
+        color: var(--text-main);
+        font-size: 26px;
+      }
+
+      .bottombar-accent {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: var(--accent);
       }
     </style>
   </head>
   <body>
     <article class="slide">
-      <div id="slideIndex" class="index">1</div>
-      <h1 id="slideTitle">Tytul slajdu</h1>
-      <p id="slideBody">Tresc slajdu</p>
-      <div class="brand">Inspirio</div>
+
+      <!-- TOPBAR -->
+      <header class="topbar">
+        <div class="logo">
+          <img src="../assets/logo.svg" alt="Inspirio" />
+          <span class="logo-text">Inspirio</span>
+        </div>
+        <div id="slideIndex" class="slide-number">1</div>
+      </header>
+
+      <!-- TREŚĆ -->
+      <main class="content">
+        <h1 id="slideTitle" class="slide-title">Tytuł slajdu</h1>
+        <div class="title-underline"></div>
+        <p id="slideBody" class="slide-body">Treść slajdu</p>
+      </main>
+
+      <!-- BOTTOMBAR -->
+      <footer class="bottombar">
+        <div class="logo">
+          <img src="../assets/logo.svg" alt="Inspirio" />
+          <span class="logo-text">Inspirio</span>
+        </div>
+        <div class="bottombar-accent"></div>
+      </footer>
+
     </article>
   </body>
 </html>

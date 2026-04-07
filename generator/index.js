@@ -5,7 +5,7 @@ import dotenv from "dotenv";
 import { GoogleGenAI } from "@google/genai";
 import { createClient } from "@supabase/supabase-js";
 import { renderCarouselSlideImage, renderPostImage } from "../graphics/render.js";
-import { buildContentPrompt, normalizeGeneratedPayload, parseClaudeJson } from "./prompts.js";
+import { buildContentPrompt, normalizeGeneratedPayload, parseGeminiJson } from "./prompts.js";
 
 dotenv.config();
 
@@ -62,7 +62,7 @@ async function generateWithGemini({ topic, dateIso }) {
     throw new Error("Gemini nie zwrocil tekstu.");
   }
 
-  return normalizeGeneratedPayload(parseClaudeJson(text));
+  return normalizeGeneratedPayload(parseGeminiJson(text));
 }
 
 async function savePostToSupabase(post, dryRun) {

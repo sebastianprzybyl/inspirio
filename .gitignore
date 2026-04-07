@@ -19,6 +19,9 @@ out/
 /build/
 /dist/
 
+# Lokalne outputy renderowania (Puppeteer)
+graphics/build/
+
 # Local environment files
 .env.local
 .env.development.local

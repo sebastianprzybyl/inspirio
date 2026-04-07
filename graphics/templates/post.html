@@ -2,81 +2,183 @@
 <html lang="pl">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Inspirio Post Template</title>
-    <link rel="stylesheet" href="../assets/colors.css" />
+    <title>Inspirio Post</title>
+    <link rel="stylesheet" href="../assets/brand.css" />
     <style>
-      * { box-sizing: border-box; margin: 0; padding: 0; }
       html, body {
         width: 1080px;
         height: 1080px;
         overflow: hidden;
-        font-family: Arial, Helvetica, sans-serif;
         background: var(--bg);
         color: var(--text-main);
+        font-family: var(--font);
       }
-      .card {
+
+      .wrapper {
         width: 1080px;
         height: 1080px;
         display: flex;
         flex-direction: column;
-        padding: 56px;
-        gap: 36px;
       }
+
+      /* ── TOPBAR ──────────────────────────────────── */
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 48px 48px 0;
+        flex-shrink: 0;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .logo img {
+        width: 36px;
+        height: 36px;
+      }
+
+      /* logo białe — używane na kolorowym tle */
+      .logo img.white {
+        filter: brightness(0) invert(1);
+      }
+
+      .logo-text {
+        font-size: 28px;
+        font-weight: 700;
+        color: var(--text-main);
+        letter-spacing: -0.5px;
+      }
+
       .badge {
-        align-self: flex-start;
         background: var(--accent-soft);
         color: var(--accent-strong);
-        border-radius: 999px;
-        font-size: 26px;
+        font-size: 22px;
+        font-weight: 600;
+        padding: 10px 22px;
+        border-radius: 50px;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+      }
+
+      /* ── CONTENT ─────────────────────────────────── */
+      .content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 48px 80px;
+        gap: 32px;
+      }
+
+      .headline {
+        font-size: 88px;
         font-weight: 700;
-        padding: 10px 24px;
-      }
-      h1 {
-        font-size: 84px;
         line-height: 1.05;
-        letter-spacing: -1px;
+        letter-spacing: -2px;
+        color: var(--text-main);
       }
-      h2 {
-        font-size: 40px;
-        color: var(--text-muted);
+
+      .subheadline {
+        font-size: 44px;
         font-weight: 500;
+        line-height: 1.3;
+        color: var(--text-muted);
+        margin-top: -8px;
       }
-      ul {
-        margin-top: 8px;
+
+      .body-points {
         list-style: none;
         display: flex;
         flex-direction: column;
-        gap: 20px;
-        font-size: 34px;
-        line-height: 1.25;
+        gap: 18px;
+        margin-top: 16px;
       }
-      li::before {
-        content: "• ";
-        color: var(--accent);
-      }
-      .footer {
-        margin-top: auto;
-        border-top: 1px solid var(--divider);
-        padding-top: 20px;
-        color: var(--text-muted);
+
+      .body-points li {
+        font-size: 36px;
+        font-weight: 400;
+        line-height: 1.3;
+        color: var(--text-main);
         display: flex;
+        align-items: flex-start;
+        gap: 20px;
+      }
+
+      .body-points li::before {
+        content: '•';
+        color: var(--accent);
+        font-size: 44px;
+        line-height: 1;
+        flex-shrink: 0;
+        margin-top: -2px;
+      }
+
+      /* ── DIVIDER ─────────────────────────────────── */
+      .divider {
+        height: 1px;
+        background: var(--divider);
+        margin: 0 48px;
+        flex-shrink: 0;
+      }
+
+      /* ── BOTTOMBAR ───────────────────────────────── */
+      .bottombar {
+        background: var(--accent);
+        padding: 28px 48px;
+        display: flex;
+        align-items: center;
         justify-content: space-between;
-        font-size: 24px;
+        flex-shrink: 0;
+      }
+
+      .bottombar-cta {
+        font-size: 26px;
+        font-weight: 500;
+        color: var(--text-main);
+        opacity: 0.9;
+      }
+
+      .bottombar-date {
+        font-size: 22px;
+        color: rgba(255, 255, 255, 0.7);
       }
     </style>
   </head>
   <body>
-    <article class="card">
-      <span id="postType" class="badge">PORADA</span>
-      <h1 id="headline">Tytul posta</h1>
-      <h2 id="subheadline">Podtytul posta</h2>
-      <ul id="bodyPoints"></ul>
-      <footer class="footer">
-        <span>Inspirio</span>
-        <span id="date">2026-04-02</span>
+    <div class="wrapper">
+
+      <!-- TOPBAR -->
+      <header class="topbar">
+        <div class="logo">
+          <img src="../assets/logo.svg" alt="Inspirio" />
+          <span class="logo-text">Inspirio</span>
+        </div>
+        <span id="postType" class="badge">PORADA</span>
+      </header>
+
+      <!-- TREŚĆ -->
+      <main class="content">
+        <h1 id="headline" class="headline">Tytuł posta</h1>
+        <p id="subheadline" class="subheadline">Podtytuł posta</p>
+        <ul id="bodyPoints" class="body-points"></ul>
+      </main>
+
+      <div class="divider"></div>
+
+      <!-- BOTTOMBAR -->
+      <footer class="bottombar">
+        <div class="logo">
+          <img src="../assets/logo.svg" alt="Inspirio" class="white" />
+          <span class="logo-text">Inspirio</span>
+        </div>
+        <span class="bottombar-cta">✦ link w bio 👆</span>
+        <span id="date" class="bottombar-date">2026-04-05</span>
       </footer>
-    </article>
+
+    </div>
   </body>
 </html>
-

@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Inspirio Story — CTA</title>
+    <link rel="stylesheet" href="../assets/brand.css" />
+    <style>
+      html, body {
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+        background: var(--accent);
+        color: var(--text-main);
+        font-family: var(--font);
+      }
+
+      .slide {
+        width: 1080px;
+        height: 1920px;
+        background: var(--accent);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 80px;
+        position: relative;
+        gap: 56px;
+      }
+
+      /* Duże logo */
+      .big-logo img {
+        width: 200px;
+        height: 200px;
+        filter: brightness(0) invert(1);
+      }
+
+      /* Główny tekst CTA */
+      .cta-main {
+        font-size: 60px;
+        font-weight: 700;
+        line-height: 1.15;
+        text-align: center;
+        color: var(--text-main);
+        letter-spacing: -1px;
+      }
+
+      /* Drugorzędny tekst CTA */
+      .cta-sub {
+        font-size: 40px;
+        font-weight: 500;
+        text-align: center;
+        color: var(--accent-soft);
+        letter-spacing: 0.2px;
+      }
+
+      /* Separator */
+      .cta-divider {
+        width: 60px;
+        height: 3px;
+        background: rgba(255, 255, 255, 0.4);
+        border-radius: 2px;
+      }
+
+      /* Handle IG na samym dole */
+      .handle {
+        position: absolute;
+        bottom: 80px;
+        font-size: 30px;
+        font-weight: 400;
+        color: rgba(255, 255, 255, 0.5);
+        letter-spacing: 0.5px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="slide">
+      <div class="big-logo">
+        <img src="../assets/logo.svg" alt="Inspirio" />
+      </div>
+      <p id="ctaMain" class="cta-main">Treść CTA</p>
+      <div class="cta-divider"></div>
+      <p id="ctaSub" class="cta-sub">Pobierz Inspirio — link w bio</p>
+      <span id="handle" class="handle">@inspirio</span>
+    </div>
+  </body>
+</html>
+

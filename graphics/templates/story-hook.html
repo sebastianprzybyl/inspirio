@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Inspirio Story — Hook</title>
+    <link rel="stylesheet" href="../assets/brand.css" />
+    <style>
+      html, body {
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+        background: var(--bg);
+        color: var(--text-main);
+        font-family: var(--font);
+      }
+
+      .slide {
+        width: 1080px;
+        height: 1920px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 80px 80px 160px;
+        position: relative;
+        gap: 64px;
+      }
+
+      /* Tag badge */
+      .tag {
+        background: var(--accent-soft);
+        color: var(--accent-strong);
+        font-size: 30px;
+        font-weight: 600;
+        padding: 14px 36px;
+        border-radius: 50px;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+      }
+
+      /* Główny tekst haka */
+      .hook-text {
+        font-size: 96px;
+        font-weight: 700;
+        line-height: 1.08;
+        letter-spacing: -3px;
+        text-align: center;
+        color: var(--text-main);
+      }
+
+      /* Dekoracja — pionowa linia akcentu */
+      .accent-bar {
+        width: 6px;
+        height: 80px;
+        background: var(--accent);
+        border-radius: 3px;
+      }
+
+      /* Logo na dole */
+      .bottom-logo {
+        position: absolute;
+        bottom: 80px;
+        left: 0;
+        right: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 14px;
+      }
+
+      .bottom-logo img {
+        width: 44px;
+        height: 44px;
+      }
+
+      .logo-text {
+        font-size: 34px;
+        font-weight: 700;
+        color: var(--text-main);
+        letter-spacing: -0.5px;
+      }
+    </style>b
+  </head>
+  <body>
+    <div class="slide">
+      <span id="postType" class="tag">PORADA</span>
+      <div class="accent-bar"></div>
+      <p id="hookText" class="hook-text">Treść haka</p>
+      <div class="bottom-logo">
+        <img src="../assets/logo.svg" alt="Inspirio" />
+        <span class="logo-text">Inspirio</span>
+      </div>
+    </div>
+  </body>
+</html>
+
