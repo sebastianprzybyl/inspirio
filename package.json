@@ -14,7 +14,8 @@
     "check:instagram": "node scripts/check-instagram.js",
     "test:publish": "node scripts/test-publish.js",
     "test:publish:dry": "node scripts/test-publish.js --dry-run",
-    "test": "node --test \"**/*.test.js\""
+    "test": "node --test \"**/*.test.js\"",
+    "test:gemini": "node --test generator/test/gemini.integration.test.js"
   },
   "engines": {
     "node": ">=20"

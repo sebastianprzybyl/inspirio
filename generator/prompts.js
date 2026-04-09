@@ -33,9 +33,28 @@ export function buildContentPrompt({ topic, dateIso }) {
 
 export function parseGeminiJson(rawText) {
   const trimmed = rawText.trim();
-  const maybeCodeBlock = trimmed.match(/```(?:json)?\s*([\s\S]*?)\s*```/i);
-  const jsonText = maybeCodeBlock ? maybeCodeBlock[1] : trimmed;
-  return JSON.parse(jsonText);
+
+  // Strategia 1: code block z zamknięciem ```...```
+  const withClose = trimmed.match(/```(?:json)?\s*([\s\S]*?)\s*```/i);
+  if (withClose) {
+    try { return JSON.parse(withClose[1].trim()); } catch { /* przejdź do następnej */ }
+  }
+
+  // Strategia 2: code block BEZ zamknięcia (Gemini czasem go pomija)
+  const withoutClose = trimmed.match(/```(?:json)?\s*([\s\S]+)/i);
+  if (withoutClose) {
+    try { return JSON.parse(withoutClose[1].trim()); } catch { /* przejdź do następnej */ }
+  }
+
+  // Strategia 3: wyodrębnij obiekt JSON po pierwszym { i ostatnim } (najodporniejsza)
+  const start = trimmed.indexOf("{");
+  const end = trimmed.lastIndexOf("}");
+  if (start !== -1 && end > start) {
+    return JSON.parse(trimmed.slice(start, end + 1));
+  }
+
+  // Strategia 4: plain JSON (bez owijania)
+  return JSON.parse(trimmed);
 }
 
 /** @deprecated Użyj parseGeminiJson */
