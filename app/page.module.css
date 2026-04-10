@@ -19,6 +19,12 @@
 }
 .btnRefresh:hover { background: var(--surface); }
 .btnRefresh:disabled { opacity: 0.5; cursor: default; }
+.btnLogout {
+  background: transparent; border: 1px solid var(--border); color: var(--text-muted);
+  padding: 8px 14px; border-radius: var(--radius); cursor: pointer; font-size: 13px;
+  transition: border-color 0.15s, color 0.15s;
+}
+.btnLogout:hover { border-color: #f87171; color: #f87171; }
 
 /* ── Main ────────────────────────────────────────────────── */
 .main { padding: 32px; }

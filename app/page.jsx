@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import { useRouter } from "next/navigation";
 import styles from "./page.module.css";
 
 function formatDate(iso) {
@@ -92,10 +93,17 @@ function PostCard({ post, onApprove, onReject }) {
 }
 
 export default function PanelPage() {
+  const router = useRouter();
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [fetchError, setFetchError] = useState(null);
   const [lastRefresh, setLastRefresh] = useState(null);
+
+  async function logout() {
+    await fetch("/api/auth", { method: "DELETE" });
+    router.push("/login");
+    router.refresh();
+  }
 
   const loadPosts = useCallback(async () => {
     setLoading(true);
@@ -168,6 +176,9 @@ export default function PanelPage() {
           )}
           <button className={styles.btnRefresh} onClick={loadPosts} disabled={loading}>
             {loading ? "⟳" : "Odśwież"}
+          </button>
+          <button className={styles.btnLogout} onClick={logout}>
+            Wyloguj
           </button>
         </div>
       </header>
