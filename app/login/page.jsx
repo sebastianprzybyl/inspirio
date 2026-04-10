@@ -1,10 +1,10 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import styles from "./login.module.css";
 
-export default function LoginPage() {
+function LoginForm() {
   const router = useRouter();
   const params = useSearchParams();
   const [password, setPassword] = useState("");
@@ -36,6 +36,26 @@ export default function LoginPage() {
   }
 
   return (
+    <form onSubmit={handleSubmit} className={styles.form}>
+      <input
+        type="password"
+        className={styles.input}
+        placeholder="Hasło"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        autoFocus
+        required
+      />
+      {error && <p className={styles.error}>{error}</p>}
+      <button type="submit" className={styles.btn} disabled={loading}>
+        {loading ? "Logowanie…" : "Zaloguj się"}
+      </button>
+    </form>
+  );
+}
+
+export default function LoginPage() {
+  return (
     <div className={styles.page}>
       <div className={styles.card}>
         <div className={styles.logo}>
@@ -45,24 +65,10 @@ export default function LoginPage() {
         </div>
         <h1 className={styles.title}>Inspirio</h1>
         <p className={styles.subtitle}>Panel zatwierdzania</p>
-
-        <form onSubmit={handleSubmit} className={styles.form}>
-          <input
-            type="password"
-            className={styles.input}
-            placeholder="Hasło"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            autoFocus
-            required
-          />
-          {error && <p className={styles.error}>{error}</p>}
-          <button type="submit" className={styles.btn} disabled={loading}>
-            {loading ? "Logowanie…" : "Zaloguj się"}
-          </button>
-        </form>
+        <Suspense fallback={<div className={styles.form} />}>
+          <LoginForm />
+        </Suspense>
       </div>
     </div>
   );
 }
-
