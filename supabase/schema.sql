@@ -63,3 +63,36 @@ to service_role
 using (true)
 with check (true);
 
+-- ── Storage: bucket instagram-posts ────────────────────────────
+-- Utwórz bucket jeśli nie istnieje (public = obrazki dostępne publicznie dla Meta API)
+insert into storage.buckets (id, name, public)
+values ('instagram-posts', 'instagram-posts', true)
+on conflict (id) do update set public = true;
+
+-- Publiczny odczyt (wymagany przez Meta Graph API do pobrania obrazka)
+drop policy if exists "storage_public_read" on storage.objects;
+create policy "storage_public_read"
+on storage.objects for select
+to public
+using (bucket_id = 'instagram-posts');
+
+-- Zapis tylko przez service_role (generator w GitHub Actions)
+drop policy if exists "storage_service_role_insert" on storage.objects;
+create policy "storage_service_role_insert"
+on storage.objects for insert
+to service_role
+with check (bucket_id = 'instagram-posts');
+
+drop policy if exists "storage_service_role_update" on storage.objects;
+create policy "storage_service_role_update"
+on storage.objects for update
+to service_role
+using (bucket_id = 'instagram-posts')
+with check (bucket_id = 'instagram-posts');
+
+drop policy if exists "storage_service_role_delete" on storage.objects;
+create policy "storage_service_role_delete"
+on storage.objects for delete
+to service_role
+using (bucket_id = 'instagram-posts');
+

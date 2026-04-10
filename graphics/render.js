@@ -126,7 +126,12 @@ async function uploadFileToStorage(localPath, targetPath, bucket = "instagram-po
     .from(bucket)
     .upload(targetPath, fileBuffer, { contentType: "image/png", upsert: true });
 
-  if (error) throw new Error(`Upload do Supabase nieudany: ${error.message}`);
+  if (error) {
+    const hint = error.message?.includes("row-level security")
+      ? " → Sprawdź czy SUPABASE_KEY to klucz service_role (nie anon)! Supabase Dashboard → Project Settings → API → service_role."
+      : "";
+    throw new Error(`Upload do Supabase nieudany: ${error.message}${hint}`);
+  }
 
   const { data } = supabase.storage.from(bucket).getPublicUrl(targetPath);
   return data.publicUrl;
