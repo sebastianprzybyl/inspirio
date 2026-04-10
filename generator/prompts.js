@@ -31,6 +31,46 @@ export function buildContentPrompt({ topic, dateIso }) {
   ].join("\n");
 }
 
+/**
+ * Buduje prompt dla Story (3 slajdy: hook → value|quote → cta).
+ * Schemat każdego slajdu pochodzi z rejestru — spójne z grafikami.
+ */
+export function buildStoryPrompt({ topic, dateIso }) {
+  const hookSchema  = buildTemplateSchema("story-hook");
+  const valueSchema = buildTemplateSchema("story-value");
+  const quoteSchema = buildTemplateSchema("story-quote");
+  const ctaSchema   = buildTemplateSchema("story-cta");
+
+  return [
+    "Jesteś social media strategist specjalizującym się w treściach na Instagram.",
+    "Przygotuj materiał na sekwencję Instagram Stories (3 slajdy) po polsku.",
+    `Temat: ${topic}`,
+    `Data publikacji: ${dateIso}`,
+    "",
+    "Zwróć WYŁĄCZNIE poprawny JSON (bez markdown, bez komentarzy) w formacie:",
+    "{",
+    '  "caption": string,   // opis do Stories, max 2200 znaków, angażujący, z emotikonami',
+    '  "tags": string[],    // 5–10 hashtagów, każdy zaczyna się od #',
+    '  "slides": array      // dokładnie 3 slajdy opisane poniżej',
+    "}",
+    "",
+    "Slajd 1 — hook, wstęp który zatrzyma palec (pole \"type\" = \"hook\"):",
+    hookSchema,
+    "",
+    "Slajd 2 — wybierz JEDEN wariant, bardziej pasujący do tematu:",
+    "  Wariant A — lista porad (pole \"type\" = \"value\"):",
+    valueSchema,
+    "  Wariant B — inspirująca sentencja (pole \"type\" = \"quote\"):",
+    quoteSchema,
+    "",
+    "Slajd 3 — CTA zamykający (pole \"type\" = \"cta\"):",
+    ctaSchema,
+    "",
+    'WAŻNE: każdy slajd musi zawierać pole "type" z wartością: "hook", "value", "quote" lub "cta".',
+    "Kolejność: slajd 1 = hook, slajd 2 = value lub quote, slajd 3 = cta.",
+  ].join("\n");
+}
+
 export function parseGeminiJson(rawText) {
   const trimmed = rawText.trim();
 
@@ -83,3 +123,65 @@ export function normalizeGeneratedPayload(payload) {
     })),
   };
 }
+
+/**
+ * Waliduje i normalizuje odpowiedź Gemini dla Story.
+ * Każdy slajd musi mieć pole "type": "hook" | "value" | "quote" | "cta".
+ */
+export function normalizeStoryPayload(payload) {
+  const slides = Array.isArray(payload.slides) ? payload.slides : [];
+  if (slides.length === 0) {
+    throw new Error("Gemini nie zwrócił slajdów story.");
+  }
+
+  const tags = Array.isArray(payload.tags)
+    ? payload.tags.filter((tag) => typeof tag === "string" && tag.trim().startsWith("#"))
+    : [];
+
+  const VALID_TYPES = ["hook", "value", "quote", "cta"];
+  const normalizedSlides = slides.map((slide, index) => {
+    const type = slide.type;
+    if (!VALID_TYPES.includes(type)) {
+      throw new Error(`Nieznany typ slajdu story: "${type}" (slajd ${index + 1}). Oczekiwano: ${VALID_TYPES.join(", ")}`);
+    }
+
+    const base = { index: index + 1, type };
+
+    switch (type) {
+      case "hook":
+        return {
+          ...base,
+          postType: typeof slide.postType === "string" ? slide.postType.slice(0, 20) : "PORADA",
+          hookText: typeof slide.hookText === "string" ? slide.hookText.trim().slice(0, 120) : "",
+        };
+      case "value":
+        return {
+          ...base,
+          valueTitle:  typeof slide.valueTitle === "string" ? slide.valueTitle.trim().slice(0, 80) : "",
+          valuePoints: Array.isArray(slide.valuePoints)
+            ? slide.valuePoints.slice(0, 5).map((p) => String(p).trim().slice(0, 80))
+            : [],
+        };
+      case "quote":
+        return {
+          ...base,
+          quote:  typeof slide.quote  === "string" ? slide.quote.trim().slice(0, 180)  : "",
+          author: typeof slide.author === "string" ? slide.author.trim().slice(0, 60) : undefined,
+        };
+      case "cta":
+        return {
+          ...base,
+          ctaMain: typeof slide.ctaMain === "string" ? slide.ctaMain.trim().slice(0, 120) : "",
+          ctaSub:  typeof slide.ctaSub  === "string" ? slide.ctaSub.trim().slice(0, 80)  : undefined,
+          handle:  typeof slide.handle  === "string" ? slide.handle.trim().slice(0, 40)  : undefined,
+        };
+    }
+  });
+
+  return {
+    caption: typeof payload.caption === "string" ? payload.caption.trim().slice(0, 2200) : "",
+    tags,
+    slides: normalizedSlides,
+  };
+}
+

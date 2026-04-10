@@ -1,9 +1,14 @@
+-- ── Migracja: dodanie typu 'story' (uruchom jeśli tabela już istnieje) ──────
+-- ALTER TABLE public.posts DROP CONSTRAINT IF EXISTS posts_type_check;
+-- ALTER TABLE public.posts ADD CONSTRAINT posts_type_check
+--   CHECK (type IN ('post', 'carousel', 'story'));
+
 create extension if not exists pgcrypto;
 
 create table if not exists public.posts (
   id uuid primary key default gen_random_uuid(),
   status text not null default 'pending' check (status in ('pending', 'approved', 'rejected', 'published', 'failed')),
-  type text not null default 'post' check (type in ('post', 'carousel')),
+  type text not null default 'post' check (type in ('post', 'carousel', 'story')),
   topic text,
   caption text,
   tags text[] default '{}',
