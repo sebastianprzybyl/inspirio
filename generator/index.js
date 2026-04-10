@@ -3,7 +3,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import dotenv from "dotenv";
 import { GoogleGenAI } from "@google/genai";
-import { createClient } from "@supabase/supabase-js";
+import { getSupabaseClient } from "../lib/supabase.js";
 import { renderCarouselSlideImage, renderPostImage, renderStorySlideImage } from "../graphics/render.js";
 import { buildContentPrompt, buildStoryPrompt, normalizeGeneratedPayload, normalizeStoryPayload, parseGeminiJson } from "./prompts.js";
 
@@ -13,14 +13,6 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const TOPICS_PATH = path.join(__dirname, "topics.json");
 
-function getSupabaseClient() {
-  const supabaseUrl = process.env.SUPABASE_URL;
-  const supabaseKey = process.env.SUPABASE_KEY;
-  if (!supabaseUrl || !supabaseKey) {
-    throw new Error("Brak SUPABASE_URL lub SUPABASE_KEY.");
-  }
-  return createClient(supabaseUrl, supabaseKey);
-}
 
 export async function getTopicForToday(referenceDate = new Date()) {
   const raw = await fs.readFile(TOPICS_PATH, "utf8");

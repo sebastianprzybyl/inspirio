@@ -1,7 +1,7 @@
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import dotenv from "dotenv";
-import { createClient } from "@supabase/supabase-js";
+import { getSupabaseClient } from "../lib/supabase.js";
 
 dotenv.config();
 
@@ -17,9 +17,6 @@ function required(name) {
   return value;
 }
 
-function getSupabaseClient() {
-  return createClient(required("SUPABASE_URL"), required("SUPABASE_KEY"));
-}
 
 const MOCK_APPROVED_POST = {
   id: "00000000-mock-0000-0000-000000000000",

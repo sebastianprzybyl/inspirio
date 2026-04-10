@@ -1,14 +1,5 @@
 import { NextResponse } from "next/server";
-import { createClient } from "@supabase/supabase-js";
-
-function getSupabase() {
-  const url = process.env.SUPABASE_URL;
-  const key = process.env.SUPABASE_KEY;
-  if (!url || !key) {
-    throw new Error("Brak SUPABASE_URL lub SUPABASE_KEY w zmiennych środowiskowych.");
-  }
-  return createClient(url, key);
-}
+import { getSupabaseClient } from "../../../lib/supabase.js";
 
 // GET /api/posts?status=pending
 export async function GET(request) {
@@ -16,7 +7,7 @@ export async function GET(request) {
     const { searchParams } = new URL(request.url);
     const status = searchParams.get("status") || "pending";
 
-    const supabase = getSupabase();
+    const supabase = getSupabaseClient();
     const { data, error } = await supabase
       .from("posts")
       .select("id, type, topic, caption, tags, image_url, slides, status, created_at")
@@ -39,7 +30,7 @@ export async function PATCH(request) {
       return NextResponse.json({ error: "Wymagane pola: id, status" }, { status: 400 });
     }
 
-    const supabase = getSupabase();
+    const supabase = getSupabaseClient();
     const update = { status };
     if (caption !== undefined) update.caption = caption;
 

@@ -1,19 +1,12 @@
 import { NextResponse } from "next/server";
-import { createClient } from "@supabase/supabase-js";
+import { getSupabaseClientOrNull } from "../../../lib/supabase.js";
 import { publishPost } from "../../../publisher/instagram.js";
-
-function getSupabase() {
-  const url = process.env.SUPABASE_URL;
-  const key = process.env.SUPABASE_KEY;
-  if (!url || !key) return null;
-  return createClient(url, key);
-}
 
 // POST /api/publish
 // Body: { id, type, caption, tags, image_url, slides }
 export async function POST(request) {
   let postId;
-  const supabase = getSupabase();
+  const supabase = getSupabaseClientOrNull();
 
   try {
     const body = await request.json();

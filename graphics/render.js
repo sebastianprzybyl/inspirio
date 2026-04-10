@@ -5,7 +5,7 @@ import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import dotenv from "dotenv";
 import puppeteer from "puppeteer";
-import { createClient } from "@supabase/supabase-js";
+import { getSupabaseClient } from "../lib/supabase.js";
 import { TEMPLATE_REGISTRY, getTemplate, validateTemplateData } from "./registry.js";
 
 dotenv.config();
@@ -14,12 +14,6 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname  = path.dirname(__filename);
 const BUILD_DIR  = path.join(__dirname, "build");
 
-function getSupabaseClient() {
-  const supabaseUrl = process.env.SUPABASE_URL;
-  const supabaseKey = process.env.SUPABASE_KEY;
-  if (!supabaseUrl || !supabaseKey) throw new Error("Brak SUPABASE_URL lub SUPABASE_KEY.");
-  return createClient(supabaseUrl, supabaseKey);
-}
 
 async function ensureBuildDir() {
   await fs.mkdir(BUILD_DIR, { recursive: true });
