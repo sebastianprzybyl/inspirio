@@ -96,7 +96,13 @@ const EVALUATORS = {
 // ─────────────────────────────────────────────────────────────
 
 async function renderTemplate({ templatePath, width, height, evaluateFn, args, outputDir }) {
-  const browser = await puppeteer.launch({ headless: true });
+  const isCI = process.env.CI === "true" || process.env.GITHUB_ACTIONS === "true";
+  const browser = await puppeteer.launch({
+    headless: true,
+    args: isCI
+      ? ["--no-sandbox", "--disable-setuid-sandbox", "--disable-dev-shm-usage"]
+      : [],
+  });
   try {
     const page = await browser.newPage();
     await page.setViewport({ width, height });
