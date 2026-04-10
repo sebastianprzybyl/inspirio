@@ -101,8 +101,44 @@ async function createMediaContainer({ imageUrl, caption, isCarouselItem = false,
   return data.id;
 }
 
+/**
+ * Czeka aż kontener mediów Instagram będzie gotowy do publikacji.
+ * Instagram potrzebuje chwili na przetworzenie obrazu po stworzeniu kontenera.
+ * @param {string} creationId - ID kontenera mediów
+ * @param {{ maxAttempts?: number, intervalMs?: number }} options
+ * @returns {Promise<void>}
+ */
+async function waitForMediaReady(creationId, { maxAttempts = 20, intervalMs = 3000 } = {}) {
+  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+    const data = await graphGet(creationId, { fields: "status_code,status" });
+    const statusCode = data.status_code;
+
+    if (statusCode === "FINISHED") {
+      return; // gotowe do publikacji
+    }
+
+    if (statusCode === "ERROR") {
+      throw new Error(`Kontener mediów ${creationId} zwrócił błąd przetwarzania (status: ERROR).`);
+    }
+
+    if (statusCode === "EXPIRED") {
+      throw new Error(`Kontener mediów ${creationId} wygasł przed publikacją (status: EXPIRED).`);
+    }
+
+    // statusCode === "IN_PROGRESS" lub inny — czekamy dalej
+    if (attempt < maxAttempts) {
+      await new Promise((resolve) => setTimeout(resolve, intervalMs));
+    }
+  }
+
+  throw new Error(
+    `Kontener mediów ${creationId} nie był gotowy po ${maxAttempts} próbach (${(maxAttempts * intervalMs) / 1000}s).`
+  );
+}
+
 async function publishContainer(creationId) {
   const igUserId = required("INSTAGRAM_USER_ID");
+  await waitForMediaReady(creationId);
   const data = await graphPost(`${igUserId}/media_publish`, { creation_id: creationId });
   return data.id;
 }
