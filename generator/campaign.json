@@ -1,0 +1,27 @@
+{
+  "description": "Tygodniowy harmonogram filarów tematycznych. Każdego aktywnego dnia generowane są oba formaty: carousel i story. AI generuje unikalny kąt dla filaru na podstawie historii i aktualnych trendów.",
+  "schedule": {
+    "0": null,
+    "1": {
+      "pillar": "Algorytm Instagrama",
+      "pillarDescription": "Zasięgi organiczne, jak działa feed/Reels/Stories algorytm, shadowban, najlepsze godziny, sygnały rankingowe"
+    },
+    "2": {
+      "pillar": "Tworzenie angażujących treści",
+      "pillarDescription": "Hooki w pierwszych 3 sekundach, copywriting karuzel i Reels, opis i caption, wizualny storytelling"
+    },
+    "3": {
+      "pillar": "Zaangażowanie i budowanie społeczności",
+      "pillarDescription": "Komentarze, odpowiedzi, CTA które działają, budowanie lojalnych obserwujących, kolaboracje i duety"
+    },
+    "4": {
+      "pillar": "Mindset i motywacja twórcy",
+      "pillarDescription": "Wypalenie twórcze, regularność vs perfekcjonizm, jak przetrwać plateau zasięgów, autentyczność, przerwy od social media"
+    },
+    "5": {
+      "pillar": "Strategia i planowanie contentu",
+      "pillarDescription": "Content plan, batching, recykling treści, analityka bez płatnych narzędzi, monetyzacja, kanały poza Instagramem"
+    },
+    "6": null
+  }
+}

@@ -165,9 +165,7 @@ export default function PostGrid({ initialPosts }) {
     <div className={styles.page}>
       <header className={styles.header}>
         <div className={styles.headerLeft}>
-          <svg className={styles.logo} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z" />
-          </svg>
+          <img src="/logo.svg" alt="Inspirio" className={styles.logo} />
           <span className={styles.title}>Inspirio</span>
           <span className={styles.subtitle}>Panel zatwierdzania</span>
         </div>

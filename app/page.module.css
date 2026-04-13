@@ -7,7 +7,7 @@
   position: sticky; top: 0; background: var(--bg); z-index: 10;
 }
 .headerLeft { display: flex; align-items: center; gap: 12px; }
-.logo { width: 28px; height: 28px; fill: var(--accent); flex-shrink: 0; }
+.logo { width: 28px; height: 28px; flex-shrink: 0; }
 .title { font-size: 20px; font-weight: 700; letter-spacing: -0.3px; }
 .subtitle { font-size: 13px; color: var(--text-muted); padding: 3px 10px; background: var(--surface-2); border-radius: 20px; }
 .headerRight { display: flex; align-items: center; gap: 12px; }

@@ -71,6 +71,122 @@ export function buildStoryPrompt({ topic, dateIso }) {
   ].join("\n");
 }
 
+/**
+ * Buduje prompt do generowania świeżego temat/kąta dla filaru tygodniowego.
+ * AI konfrontuje filar z aktualnymi trendami i historią publikacji.
+ *
+ * @param {{ pillar: string, pillarDescription: string, recentTopics: string[], dateIso: string }} params
+ * @returns {string}
+ */
+export function buildTopicPrompt({ pillar, pillarDescription, recentTopics, dateIso }) {
+  const historyBlock =
+    recentTopics.length > 0
+      ? `Ostatnio opublikowane tematy (NIE powtarzaj tych motywów):\n${recentTopics.map((t) => `- ${t}`).join("\n")}`
+      : "Brak historii publikacji — możesz wybrać dowolny temat w ramach filaru.";
+
+  return [
+    "Jesteś strategiem social media specjalizującym się w Instagramie.",
+    "",
+    `Tygodniowy filar tematyczny: "${pillar}"`,
+    `Opis filaru: ${pillarDescription}`,
+    `Data publikacji: ${dateIso}`,
+    "",
+    "Twoje zadanie: wymyśl JEDEN konkretny, świeży temat/kąt dla posta w ramach tego filaru.",
+    "Temat powinien być:",
+    "- aktualny — nawiąż do obecnych trendów, zmian algorytmu lub wydarzeń jeśli to możliwe",
+    "- konkretny i praktyczny — unikaj ogólników, daj coś do wdrożenia od razu",
+    "- inny od poprzednich tematów (ale może rozwijać wcześniej poruszony wątek z nowego kąta)",
+    "- angażujący w formie pytania, provocacji lub zaskakującego stwierdzenia",
+    "",
+    historyBlock,
+    "",
+    'Zwróć WYŁĄCZNIE poprawny JSON (bez markdown, bez komentarzy): { "topic": "..." }',
+    "Temat: max 100 znaków, po polsku.",
+  ].join("\n");
+}
+
+/**
+ * Jedno wywołanie Gemini → treść dla karuzeli I story naraz.
+ * Schemat obu sekcji pochodzi z rejestru — spójne z grafikami.
+ *
+ * @param {{ topic: string, dateIso: string }} params
+ * @returns {string}
+ */
+export function buildCombinedPrompt({ topic, dateIso }) {
+  const carouselSlideSchema = buildTemplateSchema("carousel-slide");
+  const hookSchema          = buildTemplateSchema("story-hook");
+  const valueSchema         = buildTemplateSchema("story-value");
+  const quoteSchema         = buildTemplateSchema("story-quote");
+  const ctaSchema           = buildTemplateSchema("story-cta");
+
+  return [
+    "Jesteś social media strategist specjalizującym się w treściach na Instagram.",
+    "Na podstawie jednego tematu przygotuj materiał na POST KARUZELOWY i INSTAGRAM STORY po polsku.",
+    `Temat: ${topic}`,
+    `Data publikacji: ${dateIso}`,
+    "",
+    "Zwróć WYŁĄCZNIE poprawny JSON (bez markdown, bez komentarzy) w formacie:",
+    "{",
+    '  "tags": string[],     // 5–10 hashtagów wspólnych dla obu formatów, każdy zaczyna się od #',
+    '  "carousel": {',
+    '    "caption": string,   // opis posta karuzelowego, max 2200 znaków, angażujący, z emotikonami',
+    '    "slides": array      // 3–5 slajdów (schemat poniżej)',
+    '  },',
+    '  "story": {',
+    '    "caption": string,   // skrócona wersja opisu dla Stories, max 200 znaków, z emotikonami',
+    '    "slides": array      // dokładnie 3 slajdy (schemat poniżej)',
+    '  }',
+    "}",
+    "",
+    "── KARUZELA: kontrakt slajdu ──",
+    carouselSlideSchema,
+    "",
+    "Zasady slajdów karuzeli:",
+    "- Slajd 1: hook — angażujące pytanie lub zaskakujące stwierdzenie",
+    "- Slajdy środkowe: konkretna wartość / porady możliwe do wdrożenia od razu",
+    "- Ostatni slajd: CTA — zachęta do zapisu, komentarza lub udostępnienia",
+    "",
+    "── STORY: 3 slajdy (hook → value lub quote → cta) ──",
+    "",
+    'Story slajd 1 — hook (pole "type" = "hook"):',
+    hookSchema,
+    "",
+    "Story slajd 2 — wybierz JEDEN wariant lepiej pasujący do tematu:",
+    '  Wariant A — lista porad (pole "type" = "value"):',
+    valueSchema,
+    '  Wariant B — cytat/sentencja (pole "type" = "quote"):',
+    quoteSchema,
+    "",
+    'Story slajd 3 — CTA (pole "type" = "cta"):',
+    ctaSchema,
+    "",
+    "WAŻNE: Story powinna być skondensowaną esencją karuzeli — te same kluczowe wnioski, inne ujęcie.",
+    'Każdy slajd story musi zawierać pole "type": "hook" | "value" | "quote" | "cta".',
+  ].join("\n");
+}
+
+/**
+ * Normalizuje odpowiedź combinedPrompt: waliduje obie sekcje i wstrzykuje
+ * wspólne tagi do obiektów carousel i story.
+ *
+ * @returns {{ tags: string[], carousel: ReturnType<normalizeGeneratedPayload>, story: ReturnType<normalizeStoryPayload> }}
+ */
+export function normalizeCombinedPayload(payload) {
+  if (!payload.carousel || !payload.story) {
+    throw new Error("Gemini nie zwrócił wymaganych sekcji 'carousel' i 'story'.");
+  }
+
+  const tags = Array.isArray(payload.tags)
+    ? payload.tags.filter((tag) => typeof tag === "string" && tag.trim().startsWith("#"))
+    : [];
+
+  // Wstrzyknij wspólne tagi do obu sekcji przed normalizacją
+  const carousel = normalizeGeneratedPayload({ tags, ...payload.carousel });
+  const story    = normalizeStoryPayload({ tags, ...payload.story });
+
+  return { tags, carousel, story };
+}
+
 export function parseGeminiJson(rawText) {
   const trimmed = rawText.trim();
 

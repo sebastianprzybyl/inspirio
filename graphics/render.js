@@ -7,6 +7,7 @@ import dotenv from "dotenv";
 import puppeteer from "puppeteer";
 import { getSupabaseClient } from "../lib/supabase.js";
 import { TEMPLATE_REGISTRY, getTemplate, validateTemplateData } from "./registry.js";
+import { themeToCSS } from "./themes.js";
 
 dotenv.config();
 
@@ -89,7 +90,7 @@ const EVALUATORS = {
 // CORE
 // ─────────────────────────────────────────────────────────────
 
-async function renderTemplate({ templatePath, width, height, evaluateFn, args, outputDir }) {
+async function renderTemplate({ templatePath, width, height, evaluateFn, args, outputDir, theme }) {
   const isCI = process.env.CI === "true" || process.env.GITHUB_ACTIONS === "true";
   const browser = await puppeteer.launch({
     headless: true,
@@ -101,6 +102,9 @@ async function renderTemplate({ templatePath, width, height, evaluateFn, args, o
     const page = await browser.newPage();
     await page.setViewport({ width, height });
     await page.goto(pathToFileURL(templatePath).toString(), { waitUntil: "networkidle0" });
+    if (theme && theme !== "midnight") {
+      await page.addStyleTag({ content: themeToCSS(theme) });
+    }
     await page.evaluate(evaluateFn, args);
 
     const dir        = outputDir ?? os.tmpdir();
@@ -161,6 +165,7 @@ export async function renderByTemplate(templateName, data, options = {}) {
     width:      tpl.size.width,
     height:     tpl.size.height,
     outputDir:  options.outputDir,
+    theme:      options.theme,
     evaluateFn,
     args: data,
   });
