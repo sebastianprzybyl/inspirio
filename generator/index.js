@@ -74,7 +74,7 @@ async function generateTopicWithAI({ pillar, pillarDescription, dateIso }) {
 
   const ai = new GoogleGenAI({ apiKey });
   const response = await ai.models.generateContent({
-    model: "gemini-2.0-flash",
+    model: "gemini-3-flash-preview",
     contents: buildTopicPrompt({ pillar, pillarDescription, recentTopics, dateIso }),
     config: { temperature: 0.85, maxOutputTokens: 256 },
   });
@@ -130,7 +130,7 @@ async function generateCombinedWithGemini({ topic, dateIso }) {
 
   const ai = new GoogleGenAI({ apiKey });
   const response = await ai.models.generateContent({
-    model: "gemini-2.0-flash",
+    model: "gemini-3-flash-preview",
     contents: buildCombinedPrompt({ topic, dateIso }),
     config: { temperature: 0.65, maxOutputTokens: 6144 },
   });
@@ -158,7 +158,7 @@ async function generateWithGemini({ topic, dateIso }) {
 
   const ai = new GoogleGenAI({ apiKey });
   const response = await ai.models.generateContent({
-    model: "gemini-2.0-flash",
+    model: "gemini-3-flash-preview",
     contents: buildContentPrompt({ topic, dateIso }),
     config: { temperature: 0.6, maxOutputTokens: 4096 },
   });
@@ -184,7 +184,7 @@ async function generateStoryWithGemini({ topic, dateIso }) {
 
   const ai = new GoogleGenAI({ apiKey });
   const response = await ai.models.generateContent({
-    model: "gemini-2.0-flash",
+    model: "gemini-3-flash-preview",
     contents: buildStoryPrompt({ topic, dateIso }),
     config: { temperature: 0.7, maxOutputTokens: 2048 },
   });
