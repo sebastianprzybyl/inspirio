@@ -17,8 +17,12 @@ function PostCard({ post, onApprove, onReject }) {
   const [errorMsg, setErrorMsg] = useState("");
 
   const coverImage = post.image_url || post.slides?.[0]?.image_url;
-  const isCarousel = post.type === "carousel";
   const slideCount = post.slides?.length ?? 0;
+  const typeLabel = post.type === "carousel"
+    ? `Karuzela · ${slideCount} slajdy`
+    : post.type === "story"
+    ? `Story · ${slideCount} slajdy`
+    : "Post";
 
   async function handleApprove() {
     setState("approving");
@@ -44,7 +48,7 @@ function PostCard({ post, onApprove, onReject }) {
           : <div className={styles.noImage}>Brak grafiki</div>
         }
         <span className={styles.typeBadge}>
-          {isCarousel ? `Karuzela · ${slideCount} slajdy` : "Post"}
+          {typeLabel}
         </span>
       </div>
 

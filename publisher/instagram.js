@@ -76,7 +76,7 @@ export function buildCaption(caption, tags = []) {
   return line.slice(0, 2200);
 }
 
-async function createMediaContainer({ imageUrl, caption, isCarouselItem = false, children = null }) {
+async function createMediaContainer({ imageUrl, caption, isCarouselItem = false, children = null, mediaType = null }) {
   const igUserId = required("INSTAGRAM_USER_ID");
   const body = {};
 
@@ -86,6 +86,9 @@ async function createMediaContainer({ imageUrl, caption, isCarouselItem = false,
     body.caption = caption;
   } else {
     body.image_url = imageUrl;
+    if (mediaType) {
+      body.media_type = mediaType;
+    }
     if (caption) {
       body.caption = caption;
     }
@@ -190,6 +193,27 @@ async function publishCarousel(post) {
   return publishedId;
 }
 
+async function publishStory(post) {
+  // Story nie obsługuje caption — każdy slajd to osobna publikacja
+  const slides = post.slides?.length ? post.slides : [{ image_url: post.image_url }];
+  const publishedIds = [];
+
+  for (const slide of slides) {
+    if (!slide.image_url) {
+      throw new Error("Brak image_url dla slajdu story.");
+    }
+    const creationId = await createMediaContainer({ imageUrl: slide.image_url, mediaType: "STORIES" });
+    const publishedId = await publishContainer(creationId);
+    publishedIds.push(publishedId);
+  }
+
+  if (publishedIds.length === 0) {
+    throw new Error("Story musi mieć min. 1 slajd.");
+  }
+
+  return publishedIds[0];
+}
+
 /**
  * publishPost — czysty eksport używany przez Next.js API route.
  * Przyjmuje dane posta i publikuje na IG. Nie dotyka Supabase.
@@ -197,9 +221,9 @@ async function publishCarousel(post) {
  * @returns {{ publishedId: string }}
  */
 export async function publishPost(post) {
-  const publishedId =
-    post.type === "carousel" ? await publishCarousel(post) : await publishSinglePost(post);
-  return { publishedId };
+  if (post.type === "carousel") return { publishedId: await publishCarousel(post) };
+  if (post.type === "story") return { publishedId: await publishStory(post) };
+  return { publishedId: await publishSinglePost(post) };
 }
 
 export async function testMetaConnection() {
@@ -300,7 +324,7 @@ export async function runPublisher({ dryRun = false } = {}) {
         continue;
       }
 
-      const publishedId = post.type === "carousel" ? await publishCarousel(post) : await publishSinglePost(post);
+      const { publishedId } = await publishPost(post);
       await markAsPublished(supabase, post.id, publishedId);
       results.push({ id: post.id, status: "published", publishedId });
     } catch (publishError) {
