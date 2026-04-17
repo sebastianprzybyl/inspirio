@@ -169,7 +169,7 @@ export default function PostGrid({ initialPosts }) {
     <div className={styles.page}>
       <header className={styles.header}>
         <div className={styles.headerLeft}>
-          <img src="/logo.svg" alt="Inspirio" className={styles.logo} />
+          <img src="/icon.svg" alt="Inspirio" className={styles.logo} />
           <span className={styles.title}>Inspirio</span>
           <span className={styles.subtitle}>Panel zatwierdzania</span>
         </div>
