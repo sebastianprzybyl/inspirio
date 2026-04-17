@@ -16,10 +16,10 @@
   --text-main:      #FFFFFF;
   --text-muted:     #888888;
 
-  /* Akcent — fiolet Inspirio */
-  --accent:         #7F77DD;
-  --accent-soft:    #EEEDFE;
-  --accent-strong:  #3C3489;
+  /* Akcent — koral Inspirio (wywodzony z gradientu logo) */
+  --accent:         #FF5250;
+  --accent-soft:    #FFF0F0;
+  --accent-strong:  #C01A18;
 
   /* Typografia */
   --font:           'DM Sans', Arial, Helvetica, sans-serif;

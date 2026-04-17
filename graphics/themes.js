@@ -5,170 +5,135 @@
  * Każdy motyw nadpisuje zmienne CSS z brand.css przez wstrzyknięcie <style>
  * w Puppeteer — żaden plik HTML nie wymaga zmian.
  *
+ * Kolory wywodzą się z gradientu logo Inspirio (public/icon.svg):
+ *   #FF2C2A → #FF6F6D → #FF8C8E → #FEB7BF
+ *
  * Struktura:
- *   6 kolorów bazowych × 2 warianty = 12 motywów w rotacji.
+ *   3 rodziny kolorystyczne × 2 warianty = 6 motywów w rotacji.
  *   Wariant "dark"  → ciemne tło + kolor jako akcent
- *   Wariant "light" → kolor jako tło (pastelowe) + ciemny tekst
- *   Dzięki temu ten sam kolor raz jest tłem, raz napisem.
+ *   Wariant "light" → kolor jako tło (jasne) + ciemny tekst
  */
 
 // ─────────────────────────────────────────────────────────────
-// Kolory bazowe projektu
+// Kolory bazowe — wywodzone z logo (icon.svg)
 // ─────────────────────────────────────────────────────────────
 
 const BASE = {
-  violet: { h: "#7F77DD", strong: "#3C3489", bg: "#0E0E10", bgSurf: "#17171C", bgDiv: "#2A2A2E", pastelBg: "#EEEDFE", pastelMid: "#C4B5FF", pastelDiv: "#D0C8FC", darkText: "#1A1040", mutedDark: "#5550A0" },
-  blue:   { h: "#60A8F8", strong: "#1A4EA0", bg: "#050B18", bgSurf: "#0A1228", bgDiv: "#141E38", pastelBg: "#E0EEFF", pastelMid: "#93C0F8", pastelDiv: "#B8D4FC", darkText: "#0C2040", mutedDark: "#2060A0" },
-  green:  { h: "#52CC80", strong: "#166636", bg: "#060F08", bgSurf: "#0C1A10", bgDiv: "#142A18", pastelBg: "#E0F8EB", pastelMid: "#80DBA8", pastelDiv: "#A8ECC4", darkText: "#0A2010", mutedDark: "#1A6030" },
-  orange: { h: "#F89050", strong: "#B83C10", bg: "#100800", bgSurf: "#1C1000", bgDiv: "#2E1C00", pastelBg: "#FFF0E0", pastelMid: "#FFAF7A", pastelDiv: "#FFD0B0", darkText: "#28100A", mutedDark: "#904020" },
-  pink:   { h: "#F472B6", strong: "#BE185D", bg: "#100610", bgSurf: "#1A0A1A", bgDiv: "#2E1230", pastelBg: "#FCE8F4", pastelMid: "#F4A0C8", pastelDiv: "#F8C4DC", darkText: "#280818", mutedDark: "#901060" },
-  gold:   { h: "#F0B830", strong: "#885000", bg: "#0E0A00", bgSurf: "#1A1400", bgDiv: "#2E2200", pastelBg: "#FFF6DC", pastelMid: "#F8CC60", pastelDiv: "#F8E098", darkText: "#201400", mutedDark: "#806000" },
+  // Żywy koral — ciemny stop gradientu logo (#FF2C2A), lekko rozjaśniony dla UI
+  coral: {
+    h:         "#FF5250",
+    strong:    "#C01A18",
+    bg:        "#0C0504",
+    bgSurf:    "#180D0C",
+    bgDiv:     "#2A1614",
+    pastelBg:  "#FFF0F0",
+    pastelMid: "#FFBCBA",
+    pastelDiv: "#FFD5D4",
+    darkText:  "#1E0706",
+    mutedDark: "#9A3835",
+  },
+
+  // Miękki koral-róż — środkowy stop gradientu logo (#FF8C8E)
+  rose: {
+    h:         "#FF8284",
+    strong:    "#C02840",
+    bg:        "#0F0708",
+    bgSurf:    "#1C1012",
+    bgDiv:     "#2E1A1C",
+    pastelBg:  "#FFF0F2",
+    pastelMid: "#FFBEC2",
+    pastelDiv: "#FFD5D8",
+    darkText:  "#280A0E",
+    mutedDark: "#9A3045",
+  },
+
+  // Blush — najjaśniejszy stop gradientu logo (#FEB7BF), delikatny
+  blush: {
+    h:         "#FEA8AE",
+    strong:    "#B82840",
+    bg:        "#100709",
+    bgSurf:    "#1C1014",
+    bgDiv:     "#301820",
+    pastelBg:  "#FFF5F7",
+    pastelMid: "#FFD0D5",
+    pastelDiv: "#FFE4E7",
+    darkText:  "#280A12",
+    mutedDark: "#904050",
+  },
 };
 
 export const THEMES = {
 
-  // ── VIOLET ────────────────────────────────────────────────
-  /** Domyślny Inspirio — ciemne tło, fioletowy akcent */
-  "violet-dark": {
-    bg:           BASE.violet.bg,
-    surface:      BASE.violet.bgSurf,
-    divider:      BASE.violet.bgDiv,
+  // ── CORAL ─────────────────────────────────────────────────
+  /** Flagowy ciemny — głęboka czerń z żywym koralowym akcentem (#FF2C2A) */
+  "coral-dark": {
+    bg:           BASE.coral.bg,
+    surface:      BASE.coral.bgSurf,
+    divider:      BASE.coral.bgDiv,
     textMain:     "#FFFFFF",
-    textMuted:    "#888888",
-    accent:       BASE.violet.h,
-    accentSoft:   BASE.violet.pastelBg,
-    accentStrong: BASE.violet.strong,
+    textMuted:    "#B07070",
+    accent:       BASE.coral.h,
+    accentSoft:   BASE.coral.pastelBg,
+    accentStrong: BASE.coral.strong,
   },
-  /** Pastelowe fioletowe tło, ciemny tekst */
-  "violet-light": {
-    bg:           BASE.violet.pastelBg,
+  /** Czyste tło z wyraźnym koralowym akcentem */
+  "coral-light": {
+    bg:           BASE.coral.pastelBg,
     surface:      "#FFFFFF",
-    divider:      BASE.violet.pastelDiv,
-    textMain:     BASE.violet.darkText,
-    textMuted:    BASE.violet.mutedDark,
-    accent:       BASE.violet.strong,
-    accentSoft:   BASE.violet.pastelMid,
-    accentStrong: BASE.violet.darkText,
+    divider:      BASE.coral.pastelDiv,
+    textMain:     BASE.coral.darkText,
+    textMuted:    BASE.coral.mutedDark,
+    accent:       BASE.coral.strong,
+    accentSoft:   BASE.coral.pastelMid,
+    accentStrong: BASE.coral.darkText,
   },
 
-  // ── BLUE ──────────────────────────────────────────────────
-  /** Ciemne tło, błękitny akcent */
-  "blue-dark": {
-    bg:           BASE.blue.bg,
-    surface:      BASE.blue.bgSurf,
-    divider:      BASE.blue.bgDiv,
+  // ── ROSE ──────────────────────────────────────────────────
+  /** Ciemne tło, miękki różano-koralowy akcent (#FF8C8E) */
+  "rose-dark": {
+    bg:           BASE.rose.bg,
+    surface:      BASE.rose.bgSurf,
+    divider:      BASE.rose.bgDiv,
     textMain:     "#FFFFFF",
-    textMuted:    "#6B8FA8",
-    accent:       BASE.blue.h,
-    accentSoft:   BASE.blue.pastelBg,
-    accentStrong: BASE.blue.strong,
+    textMuted:    "#B07880",
+    accent:       BASE.rose.h,
+    accentSoft:   BASE.rose.pastelBg,
+    accentStrong: BASE.rose.strong,
   },
-  /** Pastelowe niebieskie tło, ciemny tekst */
-  "blue-light": {
-    bg:           BASE.blue.pastelBg,
+  /** Ciepłe jasno-różowe tło, stonowany akcent */
+  "rose-light": {
+    bg:           BASE.rose.pastelBg,
     surface:      "#FFFFFF",
-    divider:      BASE.blue.pastelDiv,
-    textMain:     BASE.blue.darkText,
-    textMuted:    BASE.blue.mutedDark,
-    accent:       BASE.blue.strong,
-    accentSoft:   BASE.blue.pastelMid,
-    accentStrong: BASE.blue.darkText,
+    divider:      BASE.rose.pastelDiv,
+    textMain:     BASE.rose.darkText,
+    textMuted:    BASE.rose.mutedDark,
+    accent:       BASE.rose.strong,
+    accentSoft:   BASE.rose.pastelMid,
+    accentStrong: BASE.rose.darkText,
   },
 
-  // ── GREEN ─────────────────────────────────────────────────
-  /** Ciemne tło, zielony akcent */
-  "green-dark": {
-    bg:           BASE.green.bg,
-    surface:      BASE.green.bgSurf,
-    divider:      BASE.green.bgDiv,
-    textMain:     "#FFFFFF",
-    textMuted:    "#6A9A72",
-    accent:       BASE.green.h,
-    accentSoft:   BASE.green.pastelBg,
-    accentStrong: BASE.green.strong,
+  // ── BLUSH ─────────────────────────────────────────────────
+  /** Ciemne tło, delikatny blushowy akcent (#FEB7BF) */
+  "blush-dark": {
+    bg:           BASE.blush.bg,
+    surface:      BASE.blush.bgSurf,
+    divider:      BASE.blush.bgDiv,
+    textMain:     "#FFF8F8",
+    textMuted:    "#B08090",
+    accent:       BASE.blush.h,
+    accentSoft:   BASE.blush.pastelBg,
+    accentStrong: BASE.blush.strong,
   },
-  /** Pastelowe zielone tło, ciemny tekst */
-  "green-light": {
-    bg:           BASE.green.pastelBg,
+  /** Eleganckie blush tło, subtelny ciemnoróżowy akcent */
+  "blush-light": {
+    bg:           BASE.blush.pastelBg,
     surface:      "#FFFFFF",
-    divider:      BASE.green.pastelDiv,
-    textMain:     BASE.green.darkText,
-    textMuted:    BASE.green.mutedDark,
-    accent:       BASE.green.strong,
-    accentSoft:   BASE.green.pastelMid,
-    accentStrong: BASE.green.darkText,
-  },
-
-  // ── ORANGE ────────────────────────────────────────────────
-  /** Ciemne tło, pomarańczowy akcent */
-  "orange-dark": {
-    bg:           BASE.orange.bg,
-    surface:      BASE.orange.bgSurf,
-    divider:      BASE.orange.bgDiv,
-    textMain:     "#FFFFFF",
-    textMuted:    "#AA8855",
-    accent:       BASE.orange.h,
-    accentSoft:   BASE.orange.pastelBg,
-    accentStrong: BASE.orange.strong,
-  },
-  /** Pastelowe brzoskwiniowe tło, ciemny tekst */
-  "orange-light": {
-    bg:           BASE.orange.pastelBg,
-    surface:      "#FFFFFF",
-    divider:      BASE.orange.pastelDiv,
-    textMain:     BASE.orange.darkText,
-    textMuted:    BASE.orange.mutedDark,
-    accent:       BASE.orange.strong,
-    accentSoft:   BASE.orange.pastelMid,
-    accentStrong: BASE.orange.darkText,
-  },
-
-  // ── PINK ──────────────────────────────────────────────────
-  /** Ciemne tło, różowy akcent */
-  "pink-dark": {
-    bg:           BASE.pink.bg,
-    surface:      BASE.pink.bgSurf,
-    divider:      BASE.pink.bgDiv,
-    textMain:     "#FFFFFF",
-    textMuted:    "#B07090",
-    accent:       BASE.pink.h,
-    accentSoft:   BASE.pink.pastelBg,
-    accentStrong: BASE.pink.strong,
-  },
-  /** Pastelowe różowe tło, ciemny tekst */
-  "pink-light": {
-    bg:           BASE.pink.pastelBg,
-    surface:      "#FFFFFF",
-    divider:      BASE.pink.pastelDiv,
-    textMain:     BASE.pink.darkText,
-    textMuted:    BASE.pink.mutedDark,
-    accent:       BASE.pink.strong,
-    accentSoft:   BASE.pink.pastelMid,
-    accentStrong: BASE.pink.darkText,
-  },
-
-  // ── GOLD ──────────────────────────────────────────────────
-  /** Ciemne tło, złoty akcent */
-  "gold-dark": {
-    bg:           BASE.gold.bg,
-    surface:      BASE.gold.bgSurf,
-    divider:      BASE.gold.bgDiv,
-    textMain:     "#FFFFFF",
-    textMuted:    "#9A8855",
-    accent:       BASE.gold.h,
-    accentSoft:   BASE.gold.pastelBg,
-    accentStrong: BASE.gold.strong,
-  },
-  /** Pastelowe złote tło, ciemny tekst */
-  "gold-light": {
-    bg:           BASE.gold.pastelBg,
-    surface:      "#FFFFFF",
-    divider:      BASE.gold.pastelDiv,
-    textMain:     BASE.gold.darkText,
-    textMuted:    BASE.gold.mutedDark,
-    accent:       BASE.gold.strong,
-    accentSoft:   BASE.gold.pastelMid,
-    accentStrong: BASE.gold.darkText,
+    divider:      BASE.blush.pastelDiv,
+    textMain:     BASE.blush.darkText,
+    textMuted:    BASE.blush.mutedDark,
+    accent:       BASE.blush.strong,
+    accentSoft:   BASE.blush.pastelMid,
+    accentStrong: BASE.blush.darkText,
   },
 
 };
@@ -195,7 +160,7 @@ export function pickThemeForDate(dateIso) {
  * @returns {string}
  */
 export function themeToCSS(themeName) {
-  const t = THEMES[themeName] ?? THEMES.midnight;
+  const t = THEMES[themeName] ?? THEMES["coral-dark"];
   return [
     ":root {",
     `  --bg:            ${t.bg};`,
