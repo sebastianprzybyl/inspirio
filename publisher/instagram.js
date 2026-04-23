@@ -72,8 +72,9 @@ async function graphPost(endpoint, body) {
 }
 
 export function buildCaption(caption, tags = []) {
-  const line = [caption, ...(tags || [])].filter(Boolean).join("\n\n");
-  return line.slice(0, 2200);
+  const tagBlock = (tags || []).filter(Boolean).join(" ");
+  const parts = [caption, tagBlock].filter(Boolean);
+  return parts.join("\n\n").slice(0, 2200);
 }
 
 async function createMediaContainer({ imageUrl, caption, isCarouselItem = false, children = null, mediaType = null }) {

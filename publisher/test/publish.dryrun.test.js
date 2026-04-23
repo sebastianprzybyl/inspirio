@@ -4,7 +4,7 @@ import { buildCaption } from "../instagram.js";
 
 test("buildCaption laczy caption i hashtagi", () => {
   const caption = buildCaption("Opis", ["#a", "#b"]);
-  assert.equal(caption, "Opis\n\n#a\n\n#b");
+  assert.equal(caption, "Opis\n\n#a #b");
 });
 
 test("buildCaption przycina do limitu IG", () => {
