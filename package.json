@@ -13,6 +13,8 @@
     "generate:dry": "node generator/index.js --dry-run",
     "generate:story:dry": "node generator/index.js --story --dry-run",
     "publish": "node publisher/instagram.js",
+    "publish:daily": "node scripts/publish-daily.js",
+    "publish:daily:dry": "node scripts/publish-daily.js --dry-run",
     "render:smoke": "node graphics/render.js --smoke",
     "check:instagram": "node scripts/check-instagram.js",
     "test:publish": "node scripts/test-publish.js",
