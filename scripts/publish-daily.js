@@ -189,8 +189,9 @@ async function publishPostsWithDelay({ dryRun = false, delayMinutes = 5 }) {
 
 if (process.argv[1] && path.resolve(process.argv[1]) === __filename) {
   const dryRun = process.env.PUBLISH_DRY_RUN === "true" || process.argv.includes("--dry-run");
-  const delayMatch = process.argv.find((arg) => arg.startsWith("--delay-minutes="));
-  const delayMinutes = delayMatch ? parseInt(delayMatch.split("=")[1], 10) : 5;
+  const delayMatch = process.argv.find((arg) => arg.startsWith("--delay-seconds="));
+  const delaySeconds = delayMatch ? parseInt(delayMatch.split("=")[1], 10) : 30;
+  const delayMinutes = delaySeconds / 60;
 
   publishPostsWithDelay({ dryRun, delayMinutes })
     .then((result) => {
